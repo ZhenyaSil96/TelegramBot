@@ -98,33 +98,55 @@ bot.onText(/\/help (.+)/, (msg, [source, match]) => {
 // })
 
 /////inline keyboard////////
-bot.on('message', msg => {
-  const chatId = msg.chat.id
+// bot.on('message', msg => {
+//   const chatId = msg.chat.id
 
-  bot.sendMessage(chatId, 'Inline keyboard',{
-    reply_markup: {
-      inline_keyboard: [
-        [
-          {
-            text: 'Google',
-            url: 'https://google.com'
-          }
-        ],
-        [
-          {
-            text:'Replay',
-            callback_data: 'replay'
-          }, 
-          {
-            text: 'Forward',
-            callback_data: 'forward'
-          }
-        ]
-      ]
-    }
+//   bot.sendMessage(chatId, 'Inline keyboard',{
+//     reply_markup: {
+//       inline_keyboard: [
+//         [
+//           {
+//             text: 'Google',
+//             url: 'https://google.com'
+//           }
+//         ],
+//         [
+//           {
+//             text:'Replay',
+//             callback_data: 'replay'
+//           }, 
+//           {
+//             text: 'Forward',
+//             callback_data: 'forward'
+//           }
+//         ]
+//       ]
+//     }
+//   })
+// })
+
+// bot.on('callback_query', query => {
+//   bot.sendMessage(query.message.chat.id, debug(query))
+// })
+
+//////////inline query//////
+
+bot.on('inline_query', query => {
+
+  const results = []
+  for(let i = 0; i < 5; i++){
+    results.push({
+      type:'article',
+      id: i.toString(),
+      title: 'Title' + i,
+      input_message_content: {
+        message_text: `Article #${i + 1}`
+      }
+    })
+  }
+
+
+  bot.answerInlineQuery(query.id, results, {
+    cache_time: 0
   })
-})
-
-bot.on('callback_query', query => {
-  bot.sendMessage(query.message.chat.id, debug(query))
 })
