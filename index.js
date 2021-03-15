@@ -62,38 +62,69 @@ bot.onText(/\/help (.+)/, (msg, [source, match]) => {
 //     }
 // })
 
+///keyboard/////////////////////////////////
+// bot.on('message', msg => {
+//   const chatId = msg.chat.id
+
+// if (msg.text === 'Закрыть') {
+//   bot.sendMessage(chatId, 'Закрываю клавиатуру', {
+//     reply_markup: {
+//      remove_keyboard: true 
+//     }
+//   })
+// }else if (msg.text === 'Ответить') {
+//   bot.sendMessage(chatId, 'Отвечаю',{
+//     reply_markup: {
+//       force_reply: true
+//     }
+//   })
+// }else{
+//   bot.sendMessage(chatId, 'Клавиатура', {
+//     reply_markup: {
+//       keyboard: [
+//         [{
+//           text: 'Отправить местороложение',
+//           request_location:true
+//         }],
+//         ['Ответить', 'Закрыть'],
+//         [{
+//           text:'Отправить контакт',
+//           request_contact: true
+//         }]
+//       ]
+//     }
+//   })
+// } 
+// })
+
+/////inline keyboard////////
 bot.on('message', msg => {
   const chatId = msg.chat.id
 
-if (msg.text === 'Закрыть') {
-  bot.sendMessage(chatId, 'Закрываю клавиатуру', {
+  bot.sendMessage(chatId, 'Inline keyboard',{
     reply_markup: {
-     remove_keyboard: true 
-    }
-  })
-}else if (msg.text === 'Ответить') {
-  bot.sendMessage(chatId, 'Отвечаю',{
-    reply_markup: {
-      force_reply: true
-    }
-  })
-}else{
-  bot.sendMessage(chatId, 'Клавиатура', {
-    reply_markup: {
-      keyboard: [
-        [{
-          text: 'Отправить местороложение',
-          request_location:true
-        }],
-        ['Ответить', 'Закрыть'],
-        [{
-          text:'Отправить контакт',
-          request_contact: true
-        }]
+      inline_keyboard: [
+        [
+          {
+            text: 'Google',
+            url: 'https://google.com'
+          }
+        ],
+        [
+          {
+            text:'Replay',
+            callback_data: 'replay'
+          }, 
+          {
+            text: 'Forward',
+            callback_data: 'forward'
+          }
+        ]
       ]
     }
   })
-}
+})
 
- 
+bot.on('callback_query', query => {
+  bot.sendMessage(query.message.chat.id, debug(query))
 })
