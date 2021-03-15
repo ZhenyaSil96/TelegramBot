@@ -43,5 +43,16 @@ bot.onText(/\/help (.+)/, (msg, [source, match]) => {
 })
 
 bot.on('message', msg => {
-    bot.sendMessage(msg.chat.id, 'Message!')
+  
+  const html = `
+   <strong>Hello ${msg.from.first_name}</strong>
+   <pre>
+     ${debug(msg)}
+   </pre>
+
+  `
+
+    bot.sendMessage(msg.chat.id, html, {
+      parse_mode: 'HTML'
+    })
 })
