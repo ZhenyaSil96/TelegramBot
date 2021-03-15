@@ -42,17 +42,58 @@ bot.onText(/\/help (.+)/, (msg, [source, match]) => {
   bot.sendMessage(id, debug(match))
 })
 
-bot.on('message', msg => {
+
+/// Отправка html кода///Отправка api кода 
+// bot.on('message', msg => {
   
-  const html = `
-   <strong>Hello ${msg.from.first_name}</strong>
-   <pre>
-     ${debug(msg)}
-   </pre>
+//   const html = `
+//    <strong>Hello ${msg.from.first_name}</strong>
+//    <pre>
+//      ${debug(msg)}
+//    </pre>
 
-  `
+//   `
+//     if(msg.text === 'api') {
+//       bot.sendMessage(msg.chat.id, `https://core.telegram.org/bots/api`)
+//     }else {
+//       bot.sendMessage(msg.chat.id, html, {
+//         parse_mode: 'HTML'
+//       })
+//     }
+// })
 
-    bot.sendMessage(msg.chat.id, html, {
-      parse_mode: 'HTML'
-    })
+bot.on('message', msg => {
+  const chatId = msg.chat.id
+
+if (msg.text === 'Закрыть') {
+  bot.sendMessage(chatId, 'Закрываю клавиатуру', {
+    reply_markup: {
+     remove_keyboard: true 
+    }
+  })
+}else if (msg.text === 'Ответить') {
+  bot.sendMessage(chatId, 'Отвечаю',{
+    reply_markup: {
+      force_reply: true
+    }
+  })
+}else{
+  bot.sendMessage(chatId, 'Клавиатура', {
+    reply_markup: {
+      keyboard: [
+        [{
+          text: 'Отправить местороложение',
+          request_location:true
+        }],
+        ['Ответить', 'Закрыть'],
+        [{
+          text:'Отправить контакт',
+          request_contact: true
+        }]
+      ]
+    }
+  })
+}
+
+ 
 })
