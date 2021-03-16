@@ -191,6 +191,14 @@ const {chat, message_id, text} = query.message
          bot.sendMessage(chat.id, `Отвечаем на сообщение`, {
             reply_to_message_id: message_id
          })
+         break
+         case 'edit':
+           bot.editMessageText(`${text} (edited)`, {
+             chat_id: chat.id,
+             message_id:message_id,
+             reply_markup: {inline_keyboard}
+           })
+           break
    }
 
    bot.answerCallbackQuery({
