@@ -192,6 +192,7 @@ const {chat, message_id, text} = query.message
             reply_to_message_id: message_id
          })
          break
+
          case 'edit':
            bot.editMessageText(`${text} (edited)`, {
              chat_id: chat.id,
@@ -199,6 +200,11 @@ const {chat, message_id, text} = query.message
              reply_markup: {inline_keyboard}
            })
            break
+
+           case 'delete':
+             bot.deleteMessage(chat.id, message_id)
+             break
+
    }
 
    bot.answerCallbackQuery({
