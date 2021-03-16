@@ -226,12 +226,26 @@ bot.onText(/\/help (.+)/, (msg, [source, match]) => {
 
 /////////////Отправка картинок//////////////////
 
-bot.onText(/\/pic/, msg => {
-  bot.sendPhoto(msg.chat.id, fs.readFileSync(__dirname + '/cat.jpg'))
+// bot.onText(/\/pic/, msg => {
+//   bot.sendPhoto(msg.chat.id, fs.readFileSync(__dirname + '/cat.jpg'))
+// })
+
+// bot.onText(/\/pic2/, msg => {
+//   bot.sendPhoto(msg.chat.id, './cat.jpg', {
+//     caption: 'This is cat'
+//   })
+// })
+/////////////////Отправка ауидио/////////////////////////
+
+bot.onText(/\/audio/, msg => {
+  bot.sendAudio(msg.chat.id, './Agunda.mp3')
 })
 
-bot.onText(/\/pic2/, msg => {
-  bot.sendPhoto(msg.chat.id, './cat.jpg', {
-    caption: 'This is cat'
+bot.onText(/\/audio2/, msg => {
+  bot.sendMessage(msg.chat.id, 'Start audio uploading ...')
+  fs.readFile(__dirname, '/Agunda.mp3', (err, data) => {
+    bot.sendAudio(msg.chat.id, data).then(() => {
+      bot.sendMessage(msg.chat.id, 'Uploading finish ...')
+    })
   })
 })
