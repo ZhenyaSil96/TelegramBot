@@ -249,3 +249,19 @@ bot.onText(/\/audio2/, msg => {
     })
   })
 })
+///////////////////////////////////////////////////
+
+///////Отправка файла//////////////////////////////
+
+bot.onText(/\/doc1/, msg => {
+  bot.sendDocument(msg.chat.id, './Lesson JS.rar')
+})
+
+bot.onText(/\/doc2/, msg => {
+  bot.sendMessage(msg.chat.id, 'Upload start ...')
+  fs.readFile(__dirname + '/Lesson JS1.zip', (err, file) => {
+    bot.sendDocument(msg.chat.id, file).then(() => {
+      bot.sendMessage(msg.chat.id, 'Upload finish')
+    })
+  })
+})
