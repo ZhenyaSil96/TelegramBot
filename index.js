@@ -32,10 +32,10 @@ const bot = new TelegramBot(TOKEN, {
  
 // })
 
-bot.onText(/\/start/, msg => {
-  const {id} = msg.chat
-  bot.sendMessage(id, debug(msg))
-})
+// bot.onText(/\/start/, msg => {
+//   const {id} = msg.chat
+//   bot.sendMessage(id, debug(msg))
+// })
 
 bot.onText(/\/help (.+)/, (msg, [source, match]) => {
   const{id} = msg.chat
@@ -131,22 +131,79 @@ bot.onText(/\/help (.+)/, (msg, [source, match]) => {
 
 //////////inline query//////
 
-bot.on('inline_query', query => {
+// bot.on('inline_query', query => {
 
-  const results = []
-  for(let i = 0; i < 5; i++){
-    results.push({
-      type:'article',
-      id: i.toString(),
-      title: 'Title' + i,
-      input_message_content: {
-        message_text: `Article #${i + 1}`
-      }
-    })
-  }
+//   const results = []
+//   for(let i = 0; i < 5; i++){
+//     results.push({
+//       type:'article',
+//       id: i.toString(),
+//       title: 'Title' + i,
+//       input_message_content: {
+//         message_text: `Article #${i + 1}`
+//       }
+//     })
+//   }
 
 
-  bot.answerInlineQuery(query.id, results, {
-    cache_time: 0
+//   bot.answerInlineQuery(query.id, results, {
+//     cache_time: 0
+//   })
+// })
+///////////////////////////////////////////////////////
+
+/////////////////Перенаправление сообщений ////////////////////
+
+const inline_keyboard = [
+  [
+    {
+      text: 'Forward',
+      callback_data: 'forward'
+    },
+   
+    {
+      text: 'Replay',
+      callback_data: 'replay'
+    }
+  ],
+  [
+    {
+      text: 'Edit',
+      callback_data: 'edit'
+    },
+
+    {
+      text: 'Delete',
+      callback_data: 'delete'
+    }
+  ]
+]
+
+bot.on('callback_query', query => {
+
+const {chat, message_id, text} = query.message
+
+   switch(query.data) {
+     case 'forward':
+       bot.forwardMessage(chat.id, chat.id, message_id)
+       break
+       case 'replay':
+         bot.sendMessage(chat.id, `Отвечаем на сообщение`, {
+            reply_to_message_id: message_id
+         })
+   }
+
+   bot.answerCallbackQuery({
+     callback_query_id:query.id
+   })
+})
+
+bot.onText(/\/start/, (msg, [source, match]) => {
+  const chatId = msg.chat.id
+
+  bot.sendMessage(chatId, 'Keyboard', {
+    reply_markup: {
+      inline_keyboard
+    }
   })
 })
