@@ -265,3 +265,21 @@ bot.onText(/\/doc2/, msg => {
     })
   })
 })
+/////////////////////////////////////////////////////////////
+
+/////Отправка видео //////////////////////////////////////
+bot.onText(/\/v1/, msg => {
+  const chatId = msg.chat.id
+  bot.sendMessage(chatId, 'Sending video ...')
+  bot.sendVideo(chatId, './video.mp4')
+})
+
+bot.onText(/\/v2/, msg => {
+  const chatId = msg.chat.id
+  bot.sendMessage(chatId, 'Sending video ...')
+
+  fs.readFile(__dirname + '/video.mp4', (err, video) => {
+    bot.sendVideo(chatId, video)
+  })
+ 
+})
