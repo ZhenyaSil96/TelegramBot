@@ -283,3 +283,20 @@ bot.onText(/\/v2/, msg => {
   })
  
 })
+/////////////////////////////////////////////////////////////
+
+///////////Отправить геолокацию/////////////////////////////////
+
+bot.onText(/\/loc/, msg => {
+  const chatId = msg.chat.id
+  bot.sendMessage(chatId, 'Sending location ...')
+  bot.sendLocation(chatId, 48.135339, 37.748807)
+})
+
+/////////////////Отправка контакта////////////////////
+bot.onText(/\/contact/, msg => {
+  bot.sendContact(msg.chat.id, '23939054829', 'WebForMySelf', {
+    last_name: 'Surname'
+  })
+})
+
